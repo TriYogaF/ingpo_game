@@ -35,14 +35,14 @@ class PostController extends Controller
         //validate
         $attrs = $request->validate([
             'body' => 'required|string',
-            'title' => 'required|string'
+            // 'title' => 'required|string'
         ]);
 
-        $image = $this->saveImage($request->image, 'post');
+        $image = $this->saveImage($request->image, 'posts');
 
         $post = Post::create([
             'body' => $attrs['body'],
-            'title' => $attrs['title'],
+            // 'title' => $attrs['title'],
             'user_id' => auth()->user()->id,
             'image' => $image
         ]);
@@ -76,11 +76,11 @@ class PostController extends Controller
         //validate
         $attrs = $request->validate([
             'body' => 'required|string',
-            'title' => 'required|string'
+            // 'title' => 'required|string'
         ]);
 
         $post->update([
-            'title' => $attrs['title'],
+            // 'title' => $attrs['title'],
             'body' => $attrs['body']
         ]);
 
@@ -91,7 +91,7 @@ class PostController extends Controller
     }
 
     //delete post
-    public function delete($id)
+    public function destroy($id)
     {
         $post = Post::find($id);
 
@@ -109,9 +109,9 @@ class PostController extends Controller
             ], 403);
         }
 
-        $post->comments()->delete;
-        $post->likes()->delete;
-        $post->delete;
+        $post->comments()->delete();
+        $post->likes()->delete();
+        $post->delete();
 
         return response([
             'message' => 'Post deleted',
